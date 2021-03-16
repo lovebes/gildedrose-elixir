@@ -230,5 +230,21 @@ defmodule GildedRoseTest do
 
       assert quality == start_quality - 2 - 2
     end
+
+    test "should be never negative in quality" do
+      start_sell_in = 10
+      start_quality = 1
+
+      items = [%Item{name: @conjured, sell_in: start_sell_in, quality: start_quality}]
+
+      updated_items =
+        items
+        |> GildedRose.update_quality()
+        |> GildedRose.update_quality()
+
+      [%Item{quality: quality} | _] = updated_items
+
+      assert quality == 0
+    end
   end
 end
