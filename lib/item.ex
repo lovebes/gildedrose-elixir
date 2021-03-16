@@ -1,16 +1,13 @@
 defmodule Item do
   defstruct name: nil, sell_in: nil, quality: nil
 
-  @aged_brie "Aged Brie"
   @sulfras "Sulfuras, Hand of Ragnaros"
-  @backstage "Backstage passes to a TAFKAL80ETC concert"
-  @conjured "Conjured Mana Cake"
   @max_quality 50
   @sulfras_quality 80
 
-  @spec sanitize_quality(%Item{:name => String.t(), :quality => Integer}) :: %Item{
+  @spec sanitize_quality(%Item{:name => binary(), :quality => number()}) :: %Item{
           :name => String.t(),
-          :quality => Integer
+          :quality => number()
         }
   def sanitize_quality(%Item{name: name, quality: quality} = item) do
     case name do
