@@ -34,7 +34,7 @@ defmodule GildedRoseTest do
     [%{sell_in: sell_in, quality: quality} | _] = updated_items
 
     assert sell_in == start_sell_in - 1 - 1
-    assert start_quality = start_quality - 1 - 2
+    assert quality == start_quality - 1 - 2
   end
 
   test "should make quality never negative as day passes" do
@@ -64,7 +64,7 @@ defmodule GildedRoseTest do
 
     [%{quality: quality} | _] = updated_items
 
-    assert start_quality = start_quality + 1 + 1
+    assert quality == start_quality + 1 + 1
   end
 
   test "should iterate and affect logic correctly to list of items" do
@@ -79,7 +79,7 @@ defmodule GildedRoseTest do
       items
       |> GildedRose.update_quality()
 
-    for %Item{name: name, sell_in: sell_in, quality: quality} = item <- updated_items do
+    for %Item{name: name, sell_in: sell_in, quality: quality} <- updated_items do
       start_item = items |> Enum.find(nil, fn %Item{name: target_name} -> target_name == name end)
 
       case name do
@@ -105,7 +105,7 @@ defmodule GildedRoseTest do
   describe "max quality" do
     test "quality should not be over 50 for Aged Brie items" do
       start_sell_in = 10
-      start_quality = 50
+      start_quality = @max_quality
       items = [%Item{name: @aged_brie, sell_in: start_sell_in, quality: start_quality}]
 
       updated_items =
@@ -114,12 +114,12 @@ defmodule GildedRoseTest do
 
       [%{quality: quality} | _] = updated_items
 
-      assert start_quality = start_quality
+      assert quality == start_quality
     end
 
     test "quality should be fixed to 50 if given initial quality that's >50" do
       start_sell_in = 10
-      start_quality = 50
+      start_quality = @max_quality
       items = [%Item{name: "foo", sell_in: start_sell_in, quality: start_quality}]
 
       updated_items =
@@ -128,7 +128,7 @@ defmodule GildedRoseTest do
 
       [%{quality: quality} | _] = updated_items
 
-      assert start_quality = start_quality - 1
+      assert quality == start_quality - 1
     end
   end
 end
