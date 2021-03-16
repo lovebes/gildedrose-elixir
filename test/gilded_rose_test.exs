@@ -246,5 +246,22 @@ defmodule GildedRoseTest do
 
       assert quality == 0
     end
+
+    test "should degrade four times as fast as normal items past sellIn date" do
+      start_sell_in = 1
+      start_quality = 50
+
+      items = [%Item{name: @conjured, sell_in: start_sell_in, quality: start_quality}]
+
+      updated_items =
+        items
+        |> GildedRose.update_quality()
+        |> GildedRose.update_quality()
+        |> GildedRose.update_quality()
+
+      [%Item{quality: quality} | _] = updated_items
+
+      assert quality == start_quality - 2 - 4 - 4
+    end
   end
 end
