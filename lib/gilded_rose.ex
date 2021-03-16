@@ -3,11 +3,18 @@ defmodule GildedRose do
   # update_quality([%Item{name: "Backstage passes to a TAFKAL80ETC concert", sell_in: 9, quality: 1}])
   # => [%Item{name: "Backstage passes to a TAFKAL80ETC concert", sell_in: 8, quality: 3}]
 
+  @spec update_quality(list(Item)) :: list(Item)
   def update_quality(items) do
     Enum.map(items, &update_item/1)
   end
 
-  def update_item(item) do
+  @spec update_item(%Item{:name => String.t(), :quality => Integer.t(), :sell_in => Integer.t()}) ::
+          %Item{
+            :name => String.t(),
+            :quality => Integer,
+            :sell_in => Integer
+          }
+  def update_item(%Item{} = item) do
     item =
       cond do
         item.name != "Aged Brie" && item.name != "Backstage passes to a TAFKAL80ETC concert" ->
