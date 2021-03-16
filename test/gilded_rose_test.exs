@@ -116,5 +116,19 @@ defmodule GildedRoseTest do
 
       assert start_quality = start_quality
     end
+
+    test "quality should be fixed to 50 if given initial quality that's >50" do
+      start_sell_in = 10
+      start_quality = 50
+      items = [%Item{name: "foo", sell_in: start_sell_in, quality: start_quality}]
+
+      updated_items =
+        items
+        |> GildedRose.update_quality()
+
+      [%{quality: quality} | _] = updated_items
+
+      assert start_quality = start_quality - 1
+    end
   end
 end
