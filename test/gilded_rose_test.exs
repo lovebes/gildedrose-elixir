@@ -1,6 +1,13 @@
 defmodule GildedRoseTest do
   use ExUnit.Case
 
+  @aged_brie "Aged Brie"
+  @sulfras "Sulfuras, Hand of Ragnaros"
+  @backstage "Backstage passes to a TAFKAL80ETC concert"
+  @conjured "Conjured Mana Cake"
+  @max_quality 50
+  @sulfras_quality 80
+
   test "should lower both sellIn and quality after one day" do
     startCount = 3
 
@@ -43,5 +50,20 @@ defmodule GildedRoseTest do
     [%{quality: quality} | _] = updated_items
 
     assert quality == 0
+  end
+
+  test "aged brie increases quality as it gets older" do
+    start_sell_in = 10
+    start_quality = 1
+    items = [%Item{name: @aged_brie, sell_in: start_sell_in, quality: start_quality}]
+
+    updated_items =
+      items
+      |> GildedRose.update_quality()
+      |> GildedRose.update_quality()
+
+    [%{quality: quality} | _] = updated_items
+
+    assert start_quality = start_quality + 1 + 1
   end
 end
