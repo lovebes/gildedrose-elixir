@@ -24,9 +24,24 @@ defmodule GildedRoseTest do
       |> GildedRose.update_quality()
       |> GildedRose.update_quality()
 
-    [%{name: name, sell_in: sell_in, quality: quality} | _] = updated_items
+    [%{sell_in: sell_in, quality: quality} | _] = updated_items
 
     assert sell_in == start_sell_in - 1 - 1
     assert start_quality = start_quality - 1 - 2
+  end
+
+  test "should make quality never negative as day passes" do
+    start_sell_in = 1
+    start_quality = 1
+    items = [%Item{name: "foo", sell_in: start_sell_in, quality: start_quality}]
+
+    updated_items =
+      items
+      |> GildedRose.update_quality()
+      |> GildedRose.update_quality()
+
+    [%{quality: quality} | _] = updated_items
+
+    assert quality == 0
   end
 end
