@@ -133,6 +133,29 @@ defmodule GildedRose do
     # end
   end
 
+  defp handle_item_update(%Item{name: @conjured, sell_in: sell_in, quality: quality} = item) do
+    new_sell_in = sell_in - 1
+
+    new_item =
+      cond do
+        new_sell_in < 0 ->
+          %Item{
+            name: @conjured,
+            sell_in: new_sell_in,
+            quality: quality - 4
+          }
+
+        true ->
+          %Item{
+            name: @conjured,
+            sell_in: new_sell_in,
+            quality: quality - 2
+          }
+      end
+
+    new_item |> Item.sanitize_quality()
+  end
+
   defp handle_item_update(%Item{name: @backstage, sell_in: sell_in, quality: quality} = item) do
     new_sell_in = sell_in - 1
 
