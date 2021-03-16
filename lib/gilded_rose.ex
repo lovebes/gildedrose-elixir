@@ -133,6 +133,18 @@ defmodule GildedRose do
     # end
   end
 
+  defp handle_item_update(%Item{name: @aged_brie, sell_in: sell_in, quality: quality} = item) do
+    # TODO: move initiali sanitize outside of handler functions
+    new_sell_in = sell_in - 1
+
+    %Item{
+      name: @aged_brie,
+      sell_in: new_sell_in,
+      quality: quality + 1
+    }
+    |> Item.sanitize_quality()
+  end
+
   defp handle_item_update(%Item{name: name, sell_in: sell_in, quality: quality} = item) do
     # TODO: move initiali sanitize outside of handler functions
     new_sell_in = sell_in - 1
