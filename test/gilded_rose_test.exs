@@ -148,4 +148,21 @@ defmodule GildedRoseTest do
     assert quality == @sulfras_quality
     assert sell_in == start_sell_in
   end
+
+  describe "backstage passes" do
+    test "should increase in quality as SellIn value approaches, increase by 1 when more than 10 days left" do
+      start_sell_in = 12
+      start_quality = 1
+
+      items = [%Item{name: @backstage, sell_in: start_sell_in, quality: start_quality}]
+
+      updated_items =
+        items
+        |> GildedRose.update_quality()
+
+      [%Item{quality: quality} | _] = updated_items
+
+      assert quality == start_quality + 1
+    end
+  end
 end
