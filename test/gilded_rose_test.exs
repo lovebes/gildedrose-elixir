@@ -131,4 +131,21 @@ defmodule GildedRoseTest do
       assert quality == start_quality - 1
     end
   end
+
+  test "should not change quality or sellIn for Sulfuras" do
+    start_sell_in = 10
+    start_quality = 100
+
+    items = [%Item{name: @sulfras, sell_in: start_sell_in, quality: start_quality}]
+
+    updated_items =
+      items
+      |> GildedRose.update_quality()
+      |> GildedRose.update_quality()
+
+    [%Item{quality: quality, sell_in: sell_in} | _] = updated_items
+
+    assert quality == @sulfras_quality
+    assert sell_in == start_sell_in
+  end
 end
