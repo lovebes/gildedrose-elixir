@@ -101,4 +101,20 @@ defmodule GildedRoseTest do
       end
     end
   end
+
+  describe "max quality" do
+    test "quality should not be over 50 for Aged Brie items" do
+      start_sell_in = 10
+      start_quality = 50
+      items = [%Item{name: @aged_brie, sell_in: start_sell_in, quality: start_quality}]
+
+      updated_items =
+        items
+        |> GildedRose.update_quality()
+
+      [%{quality: quality} | _] = updated_items
+
+      assert start_quality = start_quality
+    end
+  end
 end
